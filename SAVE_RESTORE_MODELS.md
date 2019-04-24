@@ -28,14 +28,14 @@ from tensorflow import keras
 
 ```python
 mnist = tf.keras.datasets.mnist
-(train_images, train_labels), (test_images, test_labels) = mnist.load_data()
+(train_images, train_labels), (test_images, test_labels) = mnist.load_data()
 ```
 
-Loading the dataset returns four NumPy arrays:
+Loading the dataset returns four NumPy arrays:
 
-- The `train_images` and `train_labels` arrays are the training set (the data the model use to learn)
+- The `train_images` and `train_labels` arrays are the training set (the data the model use to learn)
 
-- The model is tested against the test set, the `test_images` and `test_labels` arrays
+- The model is tested against the test set, the `test_images` and `test_labels` arrays
 
 ```python
 train_images = train_images[:1000].reshape(-1, 28 * 28)
@@ -60,7 +60,7 @@ Building the network model requires configuring the layers of the model, then co
 
 ### Setup the layers
 
-The basic building block of a neural network is the _layer_
+The basic building block of a neural network is the _layer_
 
 ```python
 model = keras.Sequential([
@@ -90,7 +90,7 @@ model.compile(optimizer=tf.keras.optimzers.Adam(),
 
 ### Checkpoint callback usage
 
-Train the model and pass it the `ModelCheckpoint` callback
+Train the model and pass it the `ModelCheckpoint` callback
 
 ```python
 checkpoint_path = "training/mnist-cp.ckpt"

@@ -26,7 +26,7 @@ tf.enable_eager_execution()
 
 ### NumPy Compatibility
 
-Conversion between TensorFlow Tensors and NumPy ndarrays is quite simple as:
+Conversion between TensorFlow Tensors and NumPy ndarrays is quite simple as:
 
 - TensorFlow operations automatically convert NumPy ndarrays to Tensors
 

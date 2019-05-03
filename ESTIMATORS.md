@@ -178,6 +178,22 @@ classifier = tf.estimator.DNNClassifier(
 
 source: https://www.tensorflow.org/images/subsequent_calls.png
 
+## Feature Columns
+
+### Input to a Deep Neural Network
+
+What kind of data can a deep neural network operate on? The answer is, of course, **numbers** (for example, `tf.float32`)
+
+### Feature Columns
+
+You specify the input to a model through the `feature_columns` argument of an Estimator. Feature columns bridge input data (as returned by `input_fn`) with your model.
+
+![(assets/inputs_to_model_bridge](assets/inputs_to_model_bridge.jpg)
+
+source: https://www.tensorflow.org/images/feature_columns/inputs_to_model_bridge.jpg
+
+
+
 ## Reference
 
 - https://www.tensorflow.org/guide/premade_estimators

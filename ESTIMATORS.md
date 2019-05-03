@@ -192,7 +192,76 @@ You specify the input to a model through the `feature_columns` argument of an Es
 
 source: https://www.tensorflow.org/images/feature_columns/inputs_to_model_bridge.jpg
 
+#### numeric column
 
+- `tf.feature_column.numeric_column`
+
+#### bucketized column
+
+- `tf.feature_column.bucketized_column`
+
+#### categorical identity column
+
+- `tf.feature_column.categorical_column_with_identity`
+
+```python
+# Create categorical output for an integer feature named "my_feature_b",
+# The values of my_feature_b must be >= 0 and < num_buckets
+identity_feature_column = tf.feature_column.categorical_column_with_identity(
+    key='my_feature_b',
+    num_buckets=4) # Values [0, 4)
+
+# In order for the preceding call to work, the input_fn() must return
+# a dictionary containing 'my_feature_b' as a key. Furthermore, the values
+# assigned to 'my_feature_b' must belong to the set [0, 4).
+def input_fn():
+    # ...
+    return ({ 'my_feature_a':[7, 9, 5, 2], 'my_feature_b':[3, 1, 2, 2] },
+            [Label_values])
+```
+
+#### categorical vocabulary column
+
+TensorFlow provides two different functions to create categorical vocabulary columns:
+
+- `tf.feature_column.categorical_column_with_vocabulary_list`
+
+```python
+# Given input "feature_name_from_input_fn" which is a string,
+# create a categorical feature by mapping the input to one of
+# the elements in the vocabulary list.
+vocabulary_feature_column =
+    tf.feature_column.categorical_column_with_vocabulary_list(
+        key=feature_name_from_input_fn,
+        vocabulary_list=["kitchenware", "electronics", "sports"])
+```
+
+- `tf.feature_column.categorical_column_with_vocabulary_file`
+
+```python
+
+# Given input "feature_name_from_input_fn" which is a string,
+# create a categorical feature to our model by mapping the input to one of
+# the elements in the vocabulary file
+vocabulary_feature_column =
+    tf.feature_column.categorical_column_with_vocabulary_file(
+        key=feature_name_from_input_fn,
+        vocabulary_file="product_class.txt",
+        vocabulary_size=3)
+```
+
+### Indicator and embedding columns
+
+### Passing feature columns to Estimators
+
+- `tf.estimator.LinearClassifier` and `tf.estimator.LinearRegressor`: Accept all types of feature column
+
+- `tf.estimator.DNNClassifier` and `tf.estimator.DNNRegressor`: Only accept dense columns. Other column types must be wrapped in either an `indicator_column` or `embedding_column`
+
+- `tf.estimator.DNNLinearCombinedClassifier` and `tf.estimator.DNNLinearCombinedRegressor`:
+
+    - The `linear_feature_columns` argument accepts any feature column type
+    - The `dnn_feature_columns` argument only accepts dense columns
 
 ## Reference
 

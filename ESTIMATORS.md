@@ -123,6 +123,61 @@ for pred_dict, expec in zip(predictions, expected):
                           100 * probability, expec))
 ```
 
+## Checkpoints
+
+TensorFlow provides two model formats
+
+- checkpoints, which is a format dependent on the code that created the model
+- SavedModel, which is a format independent of the code that created the model
+
+### Saving partially-trained models
+
+Estimators automatically write the following to disk:
+
+- **checkpoints**, which are versions of the model created during training
+- **event files**, which contain information that `TensorBoard` uses to create visualizations
+
+```python
+classifier = tf.estimator.DNNClassifier(
+    feature_columns=my_feature_columns,
+    hidden_units=[10, 10],
+    n_classes=3,
+    model_dir='models/iris')
+```
+
+As suggested by the following diagrams, the first call to `train` adds checkpoints and other files to the `model_dir` directory:
+
+![first_train_calls](assets/first_train_calls.png)
+
+source: https://www.tensorflow.org/images/first_train_calls.png
+
+You may alter the default schedule by taking the following steps:
+
+- create a `tf.estimator.RunConfig` object that defines the desired schedule
+- When instantiating the Estimator, pass that `RunConfig` object to the Estimator's `config` argument
+
+```python
+my_checkpointing_config = tf.estimator.RunConfig(
+    # Save checkpoints every 20 minutes
+    save_checkpoints_secs = 20*60,
+    # Retain the 10 most recent checkpoints
+    keep_checkpoint_max = 10
+)
+
+classifier = tf.estimator.DNNClassifier(
+    feature_columns=my_feature_columns,
+    hidden_units=[10, 10],
+    n_classes=3,
+    model_dir='models/iris',
+    config=my_checkpointing_config)
+```
+
+### Restoring your model
+
+![subsequent_calls](assets/subsequent_calls.png)
+
+source: https://www.tensorflow.org/images/subsequent_calls.png
+
 ## Reference
 
 - https://www.tensorflow.org/guide/premade_estimators
